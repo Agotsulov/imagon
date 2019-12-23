@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.agotsulov.imagon.R;
 
-public class GalleryActivity extends AppCompatActivity {
+public class GalleryActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

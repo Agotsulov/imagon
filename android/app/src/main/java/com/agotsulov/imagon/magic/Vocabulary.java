@@ -15,11 +15,9 @@ import java.util.List;
 public class Vocabulary {
 
     private List<String> words;
-    private List<String> taskWords;
 
-    public Vocabulary(InputStreamReader allWords, InputStreamReader taskWords) throws ImagonException {
-        this.words = loadWordsFromFile(allWords);
-        this.taskWords = loadWordsFromFile(taskWords);
+    public Vocabulary(InputStreamReader inputStreamReader) throws ImagonException {
+        this.words = loadWordsFromFile(inputStreamReader);
     }
 
     private List<String> loadWordsFromFile(final InputStreamReader inputStreamReader) throws ImagonException {
@@ -59,5 +57,13 @@ public class Vocabulary {
             }
         }
         return result.toString();
+    }
+
+    public String idxToWord(int idx) {
+        return words.get(idx);
+    }
+
+    public int size() {
+        return words.size();
     }
 }

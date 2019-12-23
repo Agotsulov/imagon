@@ -7,24 +7,33 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.agotsulov.imagon.ImagonException;
 import com.agotsulov.imagon.Profile;
 import com.agotsulov.imagon.R;
+import com.agotsulov.imagon.Task;
 import com.agotsulov.imagon.magic.Model;
 import com.agotsulov.imagon.magic.Vocabulary;
 import com.agotsulov.imagon.utils.ImagePicker;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
-public class CameraActivity extends AppCompatActivity {
+public class CameraActivity extends BaseActivity {
 
 
     static final int REQUEST_TAKE_PHOTO = 1;
+
+    private int currentTaskId;
+
+    private int correct;
+    private int need;
 
     private ImageView resultImageView;
     private TextView resultTextView;
@@ -34,8 +43,6 @@ public class CameraActivity extends AppCompatActivity {
 
     private Bitmap resizedBitmap;
     private Model model;
-
-    private Profile profile = new Profile();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +54,8 @@ public class CameraActivity extends AppCompatActivity {
         } catch (IOException e) {
             finish();
         }
-        resizedBitmap = Bitmap.createScaledBitmap(resizedBitmap,
-                224, 224, false);
+//        resizedBitmap = Bitmap.createScaledBitmap(resizedBitmap,
+//                224, 224, false);
 
         this.resultImageView = findViewById(R.id.image);
         this.resultImageView.setImageBitmap(resizedBitmap);
@@ -57,20 +64,48 @@ public class CameraActivity extends AppCompatActivity {
 
         try {
             Vocabulary vocabulary = new Vocabulary(
-                    new InputStreamReader(getAssets().open("words.txt"), "UTF-8"),
-                    new InputStreamReader(getAssets().open("taskWords.txt"), "UTF-8")
+                    new InputStreamReader(getAssets().open("words.txt"), "UTF-8")
             );
             this.model = new Model(this, vocabulary);
         } catch (ImagonException | IOException e) {
             e.printStackTrace();
         }
 
+        currentTaskId = getIntent().getIntExtra("task", 0);
+
+        need = profile.getCurrentTasks().get(currentTaskId).getWords().size();
+
         this.taskTextView = findViewById(R.id.task);
-        this.taskTextView.setText(taskText);
+        this.taskTextView.setText(profile.getCurrentTasks().get(currentTaskId).getTaskText());
     }
 
     public void onShoot(View view) {
         startCameraActivity();
+    }
+
+
+    public int checkTask(List<String> need, String str) {
+        int i = 0;
+        for (String s: need) {
+            if (str.contains(s)) {
+                i++;
+            }
+        }
+        return i;
+    }
+
+    public void onSubmit(View view) {
+        if (correct >= need) {
+            this.profile.setTaskDone(currentTaskId);
+            this.profile.addCoins(1000);
+            finish();
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Only " + correct + "/" + need,
+                    Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
     }
 
 
@@ -93,7 +128,9 @@ public class CameraActivity extends AppCompatActivity {
                 this.resultImageView.setImageBitmap(originalBitmap);
                 String result = model.forward(resizedBitmap);
                 this.resultTextView.setText(result);
+                correct = profile.getCurrentTasks().get(currentTaskId).check(result);
             }
         }
     }
+
 }

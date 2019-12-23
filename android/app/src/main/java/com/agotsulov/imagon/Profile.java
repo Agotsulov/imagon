@@ -1,6 +1,9 @@
 package com.agotsulov.imagon;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -8,22 +11,42 @@ public class Profile {
 
     private int coins;
     private List<Task> currentTasks;
-    private List<Task> history;
 
     public Profile() {
         this.coins = 0;
         this.currentTasks = new ArrayList<>();
-        this.history = new ArrayList<>();
+        String[] array1 = {"a"};
+        this.currentTasks.add(new Task(
+                Arrays.asList(array1)
+        ));
     }
 
-    public Profile(int coins, List<Task> currentTasks, List<Task> history) {
-        this.coins = coins;
-        this.currentTasks = currentTasks;
-        this.history = history;
+    public void load() {
+        Log.i("Profile", "LOAD");
+    }
+
+    public void save() {
+        Log.i("Profile", "SAVE");
+    }
+
+    public void addTask(Task task) {
+        currentTasks.add(task);
+    }
+
+    public void setTaskDone(int i) {
+        currentTasks.remove(i);
+    }
+
+    public void addCoins(int count) {
+        coins += count;
     }
 
     public int getCoins() {
         return coins;
+    }
+
+    public String getCoinsText() {
+        return "Coins: " + coins;
     }
 
     public void setCoins(int coins) {
@@ -38,14 +61,15 @@ public class Profile {
         this.currentTasks = currentTasks;
     }
 
-    public List<Task> getHistory() {
-        return history;
-    }
+    private static Profile instance = null;
 
-    public void setHistory(List<Task> history) {
-        this.history = history;
+    public static Profile getInstance() {
+        if (instance == null) {
+            instance = new Profile();
+            instance.load();
+        }
+        return instance;
     }
-
 
 }
 

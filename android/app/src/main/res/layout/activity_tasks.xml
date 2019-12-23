@@ -6,21 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".activities.TasksActivity">
 
+
+    <TextView
+        android:id="@+id/profileInfo"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:lines="2"
+        android:text="Coins:"
+        android:textSize="20sp"
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/task1"
-        android:layout_width="321dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
         android:lines="3"
         android:onClick="toCamera"
         android:text="task1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/profileInfo" />
 
     <Button
         android:id="@+id/task2"
-        android:layout_width="321dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:lines="3"
         android:onClick="toCamera"
@@ -31,11 +45,11 @@
 
     <Button
         android:id="@+id/task3"
-        android:layout_width="321dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:lines="3"
         android:onClick="toCamera"
-        android:text="task1"
+        android:text="task3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/task2" />
@@ -52,7 +66,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task3"
         app:layout_constraintVertical_bias="1.0" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

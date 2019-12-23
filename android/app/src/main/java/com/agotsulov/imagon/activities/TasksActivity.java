@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.agotsulov.imagon.ImagonException;
@@ -15,6 +16,7 @@ import com.agotsulov.imagon.R;
 import com.agotsulov.imagon.Task;
 import com.agotsulov.imagon.TaskGenerator;
 import com.agotsulov.imagon.magic.Vocabulary;
+import com.agotsulov.imagon.utils.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -51,6 +53,17 @@ public class TasksActivity extends BaseActivity {
         taskButtons[0] = findViewById(R.id.task1);
         taskButtons[1] = findViewById(R.id.task2);
         taskButtons[2] = findViewById(R.id.task3);
+
+//        if (IOUtils.isFileExist(getBaseContext(), "profile.json")) {
+//            String json = IOUtils.read(getBaseContext(), "profile.json");
+//            Log.i("JSON", json);
+//            profile = gson.fromJson(
+//                    json,
+//                    Profile.class
+//            );
+//            Log.i("PROFILE", profile.getCurrentTasks().toString());
+//            Log.i("PROFILE", profile.getCoins() + "");
+//        }
     }
 
     public void toCamera(View view) {
@@ -68,6 +81,22 @@ public class TasksActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    public void refreshTask(View view) {
+        int buttonId = ((ImageButton) view).getId();
+        if (profile.getCoins() >= 100) {
+            Task task = taskGenerator.generate();
+            if (buttonId == R.id.refresh1) {
+                profile.setTask(0, task);
+            } else if (buttonId == R.id.refresh2) {
+                profile.setTask(1, task);
+            } else if (buttonId == R.id.refresh3) {
+                profile.setTask(2, task);
+            }
+            profile.addCoins(-100);
+            updateTasks();
+        }
+    }
+
     public void toGallery(View view) {
         Intent intent = new Intent(this, GalleryActivity.class);
         startActivity(intent);
@@ -79,6 +108,10 @@ public class TasksActivity extends BaseActivity {
         updateTasks();
     }
 
+    private void updateTask(int i) {
+        taskButtons[i].setText(profile.getCurrentTasks().get(i).getTaskText());
+    }
+
     private void updateTasks() {
         info.setText(profile.getCoinsText());
 
@@ -87,8 +120,17 @@ public class TasksActivity extends BaseActivity {
             profile.addTask(task);
         }
 
-        taskButtons[0].setText(profile.getCurrentTasks().get(0).getTaskText());
-        taskButtons[1].setText(profile.getCurrentTasks().get(1).getTaskText());
-        taskButtons[2].setText(profile.getCurrentTasks().get(2).getTaskText());
+        updateTask(0);
+        updateTask(1);
+        updateTask(2);
     }
+
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        String json =  gson.toJson(profile);
+//        Log.i("JSON", json);
+//        IOUtils.write(getBaseContext(), "profile.json", json);
+//    }
 }

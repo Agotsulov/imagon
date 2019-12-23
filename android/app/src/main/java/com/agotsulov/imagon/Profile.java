@@ -2,6 +2,8 @@ package com.agotsulov.imagon;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,12 +15,8 @@ public class Profile {
     private List<Task> currentTasks;
 
     public Profile() {
-        this.coins = 0;
+        this.coins = 10000;
         this.currentTasks = new ArrayList<>();
-        String[] array1 = {"a"};
-        this.currentTasks.add(new Task(
-                Arrays.asList(array1)
-        ));
     }
 
     public void load() {
@@ -27,6 +25,10 @@ public class Profile {
 
     public void save() {
         Log.i("Profile", "SAVE");
+    }
+
+    public void setTask(int i, Task task) {
+        currentTasks.set(i, task);
     }
 
     public void addTask(Task task) {
@@ -66,7 +68,6 @@ public class Profile {
     public static Profile getInstance() {
         if (instance == null) {
             instance = new Profile();
-            instance.load();
         }
         return instance;
     }

@@ -12,47 +12,14 @@
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
+        android:gravity="center_vertical"
         android:lines="2"
         android:text="Coins:"
         android:textSize="20sp"
-        android:gravity="center_vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/task1"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:lines="3"
-        android:onClick="toCamera"
-        android:text="task1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileInfo" />
-
-    <Button
-        android:id="@+id/task2"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:lines="3"
-        android:onClick="toCamera"
-        android:text="task2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task1" />
-
-    <Button
-        android:id="@+id/task3"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:lines="3"
-        android:onClick="toCamera"
-        android:text="task3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task2" />
 
     <Button
         android:id="@+id/gallery"
@@ -62,11 +29,83 @@
         android:lines="3"
         android:onClick="toGallery"
         android:text="Gallery"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/task3"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:lines="3"
+        android:onClick="toCamera"
+        android:text="task3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/task2" />
+
+    <Button
+        android:id="@+id/task1"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:lines="3"
+        android:onClick="toCamera"
+        android:text="task1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileInfo" />
+
+    <ImageButton
+        android:id="@+id/refresh1"
+        android:layout_width="75dp"
+        android:layout_height="72dp"
+        android:onClick="refreshTask"
+        app:layout_constraintBottom_toBottomOf="@+id/task1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/task1"
+        app:layout_constraintTop_toTopOf="@+id/task1"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@android:drawable/ic_menu_rotate" />
+
+    <ImageButton
+        android:id="@+id/refresh2"
+        android:layout_width="75dp"
+        android:layout_height="72dp"
+        android:onClick="refreshTask"
+        app:layout_constraintBottom_toBottomOf="@+id/task2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/task2"
+        app:layout_constraintTop_toTopOf="@+id/task2"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@android:drawable/ic_menu_rotate" />
+
+    <ImageButton
+        android:id="@+id/refresh3"
+        android:layout_width="75dp"
+        android:layout_height="72dp"
+        android:onClick="refreshTask"
+        app:layout_constraintBottom_toBottomOf="@+id/task3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/task3"
+        app:layout_constraintTop_toTopOf="@+id/task3"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@android:drawable/ic_menu_rotate" />
+
+    <Button
+        android:id="@+id/task2"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:lines="3"
+        android:onClick="toCamera"
+        android:text="task2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/task1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

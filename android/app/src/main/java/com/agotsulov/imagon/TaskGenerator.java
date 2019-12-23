@@ -8,8 +8,8 @@ import java.util.Random;
 
 public class TaskGenerator {
 
-    private final int MIN = 2;
-    private final int MAX = 5;
+    private final int MIN = 1;
+    private final int MAX = 3;
 
     private Vocabulary vocabulary;
 

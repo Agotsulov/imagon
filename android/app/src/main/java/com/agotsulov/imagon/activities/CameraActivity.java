@@ -97,7 +97,7 @@ public class CameraActivity extends BaseActivity {
     public void onSubmit(View view) {
         if (correct >= need) {
             this.profile.setTaskDone(currentTaskId);
-            this.profile.addCoins(1000);
+            this.profile.addCoins(300);
             finish();
         } else {
             Toast toast = Toast.makeText(getApplicationContext(),

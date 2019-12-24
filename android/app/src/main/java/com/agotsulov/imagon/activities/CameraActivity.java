@@ -6,6 +6,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Gravity;
@@ -42,7 +43,9 @@ public class CameraActivity extends BaseActivity {
     private TextView taskTextView;
 
     private Bitmap resizedBitmap;
-    private Model model;
+    private Model model = null;
+
+    private String result = "...";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,14 +70,8 @@ public class CameraActivity extends BaseActivity {
 
         this.resultTextView = findViewById(R.id.result);
 
-        try {
-            Vocabulary vocabulary = new Vocabulary(
-                    new InputStreamReader(getAssets().open("words.txt"), "UTF-8")
-            );
-            this.model = new Model(this, vocabulary);
-        } catch (ImagonException | IOException e) {
-            e.printStackTrace();
-        }
+        ModelLoader modelLoader = new ModelLoader();
+        modelLoader.execute();
 
         currentTaskId = getIntent().getIntExtra("task", 0);
 
@@ -85,7 +82,15 @@ public class CameraActivity extends BaseActivity {
     }
 
     public void onShoot(View view) {
-        startCameraActivity();
+        if (model != null) {
+            startCameraActivity();
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Model loading...",
+                    Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
     }
 
     public void onSubmit(View view) {
@@ -120,11 +125,45 @@ public class CameraActivity extends BaseActivity {
                 this.resizedBitmap = Bitmap.createScaledBitmap(originalBitmap,
                         224, 224, false);
                 this.resultImageView.setImageBitmap(originalBitmap);
-                String result = model.forward(resizedBitmap);
-                this.resultTextView.setText(result);
-                correct = profile.getCurrentTasks().get(currentTaskId).check(result);
+                ModelRunner modelRunner = new ModelRunner();
+                modelRunner.execute();
+//                String result = model.forward(resizedBitmap);
+//                this.resultTextView.setText(result);
+//                correct = profile.getCurrentTasks().get(currentTaskId).check(result);
             }
         }
     }
 
+
+    public class ModelLoader extends AsyncTask {
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            try {
+                Vocabulary vocabulary = new Vocabulary(
+                        new InputStreamReader(getAssets().open("words.txt"), "UTF-8")
+                );
+                model = new Model(getApplication(), vocabulary);
+            } catch (ImagonException | IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public class ModelRunner extends AsyncTask {
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            result = model.forward(resizedBitmap);
+            correct = profile.getCurrentTasks().get(currentTaskId).check(result);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            resultTextView.setText(result);
+        }
+    }
 }

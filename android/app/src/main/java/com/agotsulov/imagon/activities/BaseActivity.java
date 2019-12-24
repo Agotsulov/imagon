@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -27,11 +28,8 @@ public class BaseActivity extends AppCompatActivity {
 
         profile = Profile.getInstance(getApplication());
 
-        if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            requestForSpecificPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
-        }
-        if (!checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            requestForSpecificPermission(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE});
+        if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) && !checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            requestForSpecificPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
         }
     }
 

@@ -88,11 +88,6 @@ public class TasksActivity extends BaseActivity {
         }
     }
 
-    public void toGallery(View view) {
-        Intent intent = new Intent(this, GalleryActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();

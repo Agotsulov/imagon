@@ -54,16 +54,7 @@ public class TasksActivity extends BaseActivity {
         taskButtons[1] = findViewById(R.id.task2);
         taskButtons[2] = findViewById(R.id.task3);
 
-//        if (IOUtils.isFileExist(getBaseContext(), "profile.json")) {
-//            String json = IOUtils.read(getBaseContext(), "profile.json");
-//            Log.i("JSON", json);
-//            profile = gson.fromJson(
-//                    json,
-//                    Profile.class
-//            );
-//            Log.i("PROFILE", profile.getCurrentTasks().toString());
-//            Log.i("PROFILE", profile.getCoins() + "");
-//        }
+
     }
 
     public void toCamera(View view) {
@@ -125,12 +116,10 @@ public class TasksActivity extends BaseActivity {
         updateTask(2);
     }
 
-//
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        String json =  gson.toJson(profile);
-//        Log.i("JSON", json);
-//        IOUtils.write(getBaseContext(), "profile.json", json);
-//    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        profile.save(getApplication());
+    }
 }

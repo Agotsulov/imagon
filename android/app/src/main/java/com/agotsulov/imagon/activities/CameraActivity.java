@@ -2,6 +2,7 @@ package com.agotsulov.imagon.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -39,7 +40,6 @@ public class CameraActivity extends BaseActivity {
     private TextView resultTextView;
 
     private TextView taskTextView;
-    private TextView checkTextView;
 
     private Bitmap resizedBitmap;
     private Model model;
@@ -48,6 +48,11 @@ public class CameraActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+
+
+        if (!checkPermission(Manifest.permission.CAMERA)) {
+            requestForSpecificPermission(new String[]{Manifest.permission.CAMERA});
+        }
 
         try {
             resizedBitmap = BitmapFactory.decodeStream(getAssets().open("image.jpg"));
@@ -83,17 +88,6 @@ public class CameraActivity extends BaseActivity {
         startCameraActivity();
     }
 
-
-    public int checkTask(List<String> need, String str) {
-        int i = 0;
-        for (String s: need) {
-            if (str.contains(s)) {
-                i++;
-            }
-        }
-        return i;
-    }
-
     public void onSubmit(View view) {
         if (correct >= need) {
             this.profile.setTaskDone(currentTaskId);
@@ -101,7 +95,7 @@ public class CameraActivity extends BaseActivity {
             finish();
         } else {
             Toast toast = Toast.makeText(getApplicationContext(),
-                    "Only " + correct + "/" + need,
+                      correct + "/" + need,
                     Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
